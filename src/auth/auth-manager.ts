@@ -133,7 +133,7 @@ export class AuthManager {
     }
 
     if (await this.isStateExpired()) {
-      log.warning("⚠️  Saved state is expired (>24h old)");
+      log.warning("⚠️  Saved state is expired (>30d old)");
       log.info("💡 Run setup_auth tool to re-authenticate");
       return null;
     }
@@ -258,11 +258,12 @@ export class AuthManager {
     try {
       const stats = await fs.stat(this.stateFilePath);
       const fileAgeSeconds = (Date.now() - stats.mtimeMs) / 1000;
-      const maxAgeSeconds = 24 * 60 * 60; // 24 hours
+      const maxAgeSeconds = 30 * 24 * 60 * 60; // 30 days
 
       if (fileAgeSeconds > maxAgeSeconds) {
         const hoursOld = fileAgeSeconds / 3600;
-        log.warning(`⚠️  Saved state is ${hoursOld.toFixed(1)}h old (max: 24h)`);
+        const daysOld = hoursOld / 24;
+        log.warning(`⚠️  Saved state is ${daysOld.toFixed(1)}d old (max: 30d)`);
         return true;
       }
 

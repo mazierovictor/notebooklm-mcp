@@ -87,28 +87,28 @@ const DEFAULTS: Config = {
 
   // Browser Settings
   headless: true,
-  browserTimeout: 30000,
+  browserTimeout: 300000,
   viewport: { width: 1024, height: 768 },
 
   // Session Management
   maxSessions: 10,
-  sessionTimeout: 900, // 15 minutes
+  sessionTimeout: 2592000, // 30 days
 
   // Authentication
   autoLoginEnabled: false,
   loginEmail: "",
   loginPassword: "",
-  autoLoginTimeoutMs: 120000, // 2 minutes
+  autoLoginTimeoutMs: 300000, // 5 minutes
 
   // Stealth Settings
   stealthEnabled: true,
-  stealthRandomDelays: true,
-  stealthHumanTyping: true,
-  stealthMouseMovements: true,
-  typingWpmMin: 160,
-  typingWpmMax: 240,
-  minDelayMs: 100,
-  maxDelayMs: 400,
+  stealthRandomDelays: false,
+  stealthHumanTyping: false,
+  stealthMouseMovements: false,
+  typingWpmMin: 2000,
+  typingWpmMax: 3000,
+  minDelayMs: 0,
+  maxDelayMs: 0,
 
   // Paths (cross-platform via env-paths)
   configDir: paths.config,
@@ -128,7 +128,7 @@ const DEFAULTS: Config = {
   cloneProfileOnIsolated: false,
   cleanupInstancesOnStartup: true,
   cleanupInstancesOnShutdown: true,
-  instanceProfileTtlHours: 72,
+  instanceProfileTtlHours: 720,
   instanceProfileMaxCount: 20,
 };
 
