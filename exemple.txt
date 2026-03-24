@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "notebooklm": {
+      "command": "node",
+      "args": [
+        "C:\\script\\mcp\\notebooklm-mcp\\dist\\index.js"
+      ]
+    }
+  },
+  "preferences": {
+    "coworkScheduledTasksEnabled": true,
+    "ccdScheduledTasksEnabled": true,
+    "sidebarMode": "task",
+    "dockBounceEnabled": true,
+    "coworkWebSearchEnabled": true,
+    "keepAwakeEnabled": true
+  }
+}
