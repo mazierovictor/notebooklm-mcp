@@ -407,13 +407,29 @@ export class BrowserSession {
       // Wait for the response with streaming detection
       log.info(`  ⏳ Waiting for response (with streaming detection)...`);
       await sendProgress?.("Waiting for NotebookLM response (streaming detection active)...", 3, 5);
-      const answer = await waitForLatestAnswer(page, {
-        question,
-        timeoutMs: 300000, // 5 minutes
-        pollIntervalMs: 1000,
-        ignoreTexts: existingResponses,
-        debug: false,
-      });
+
+      // Set up a keep-alive interval to prevent MCP client timeouts (typically 60s)
+      let keepAliveInterval: NodeJS.Timeout | null = null;
+      if (sendProgress) {
+        keepAliveInterval = setInterval(() => {
+          sendProgress("Still waiting for NotebookLM response...", 3, 5).catch(() => {});
+        }, 10000); // 10 second heartbeat
+      }
+
+      let answer;
+      try {
+        answer = await waitForLatestAnswer(page, {
+          question,
+          timeoutMs: 300000, // 5 minutes
+          pollIntervalMs: 1000,
+          ignoreTexts: existingResponses,
+          debug: false,
+        });
+      } finally {
+        if (keepAliveInterval) {
+          clearInterval(keepAliveInterval);
+        }
+      }
 
       if (!answer) {
         throw new Error("Timeout waiting for response from NotebookLM");
